@@ -239,6 +239,7 @@ def testNN(tr_histograms, kmeans, codebook, labels, tr_order_to_label):
 
 
 # support vector machine to divide training space by hyperplane
+#
 def svm(train_hist, test_hist, testSize, tr_order_to_label, labels):
     train_len = len(train_hist)
     y = []
@@ -251,6 +252,7 @@ def svm(train_hist, test_hist, testSize, tr_order_to_label, labels):
         prediction = model.predict(test_hist[i])
         classified.append(prediction)
     return prediction
+
 
 
 def logistic(train_hist, test_hist, testSize, tr_order_to_label, labels):
