@@ -104,7 +104,7 @@ Labels are 'HobI16-053768896760.svs': '1'
 
 
 '''
-def testNN(tr_histograms, kmeans, codebook, labels, tr_order_to_label):
+def test(tr_histograms, kmeans, codebook, labels, tr_order_to_label):
     #scale of 0-3 resolution 0 is highest res, 3 is lowest
     RESOLUTION = 3
     #PATH_LEN = 24
