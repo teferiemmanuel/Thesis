@@ -112,9 +112,6 @@ def testNN(tr_histograms, kmeans, codebook, labels, tr_order_to_label):
     #Path for VisualAI cluser:
     PATH = "/n/fs/visualai-scr/emmanuel/lymph-130/test/*.svs"
     PATH_LEN = 44
-
-
-
     # have dict relating order in filepath iteration in training to slide name fioepath parsed.
     test_order_to_label = {}
     index = 0
@@ -241,7 +238,7 @@ def testNN(tr_histograms, kmeans, codebook, labels, tr_order_to_label):
     print(confusion_logit)
 
 
-
+# support vector machine to divide training space by hyperplane
 def svm(train_hist, test_hist, testSize, tr_order_to_label, labels):
     train_len = len(train_hist)
     y = []
