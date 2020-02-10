@@ -101,8 +101,6 @@ def train():
 '''
 Can be used for validation step as well. Takes training outputs. 
 Labels are 'HobI16-053768896760.svs': '1'
-
-
 '''
 def test(tr_histograms, kmeans, codebook, labels, tr_order_to_label):
     #scale of 0-3 resolution 0 is highest res, 3 is lowest
@@ -122,7 +120,7 @@ def test(tr_histograms, kmeans, codebook, labels, tr_order_to_label):
         filename = filepath[PATH_LEN:]
         test_order_to_label[index] = filename
         testSize += 1
-        index += 1∏
+        index += 1
 
 
     #score = np.zeros((testSize, 2))
