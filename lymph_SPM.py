@@ -134,7 +134,7 @@ def train():
 
 def test(hist_total, diagnosis):
     #scale of 0-3 resolution 0 is highest res, 3 is lowest
-    RESOLUTION = 3
+    RESOLUTION = 2
     #PATH_LEN = 24
     #PATH = "/Volumes/Datasets/test/*.svs"
     #Path for VisualAI cluser:
@@ -153,50 +153,13 @@ def test(hist_total, diagnosis):
         index += 1
 
 
-    #score = np.zeros((testSize, 2))
-    dimension = (testSize, len(codebook))
-    hist = np.zeros(dimension)
-    histTest = np.zeros(dimension)
 
-    #current image
-    i = 0
-    
-    for filepath in glob.iglob(PATH):
-        im = openslide.OpenSlide(filepath)
-        dims = im.level_dimensions[RESOLUTION]
-        SLIDE_HEIGHT = dims[1]
-        SLIDE_WIDTH = dims[0]
-        filename = filepath[PATH_LEN:]
-        desCount = 0
-        slide_label = labels[filename]
-        img = im.read_region((0, 0), RESOLUTION, (SLIDE_WIDTH, SLIDE_HEIGHT))
-        imgA = np.array(img)
-        gray = cv.cvtColor(imgA, cv.COLOR_BGR2GRAY)
-   
-        ### Dense SIFT alternative feature to test ###
-        # dense=cv2.FeatureDetector_create("Dense")
-        # kp=dense.detect(imgGray)
-        # kp,des=sift.compute(imgGray,kp)
-
-        # Normal sift 
-        kp, des = sift.detectAndCompute(gray,None)
-
-        # make histogram for the test set. Question: How sparse are the histograms?
-        if des is not None:
-            for d in des:
-                d = np.reshape(d, (1, 128))
-                predicted = kmeans.predict(d)
-                histogramTest[i][predicted] += 1
-                desCount += 1
-            hist[i] = np.true_divide(histogramTest[i], desCount)
-        i += 1
-
-    # change between NN, SVM, and Logit
+    # Change between NN, SVM, and Logit
     # test_predictions is testSize amount of predictions 
-    # hist is test histogram 
-    test_predictions_NN = nearest_neighbor(tr_histograms, hist, testSize, tr_order_to_label, labels)
-    test_predictions_SVM = svm(tr_histograms, hist, testSize, tr_order_to_label, labels)
-    test_predictions_logit = logistic(tr_histograms, hist, testSize, tr_order_to_label, labels)
+    # hist is test histogram, normalize hist_total
+    test_predictions_NN = nearest_neighbor(hist_total, diagnosis)
+    test_predictions_SVM = svm(hist_total, diagnosis)
+    test_predictions_logit = logistic(hist_total, diagnosis)
     
     # confusion matrix, the key code is actual-predicted
     confusion_NN = {}
